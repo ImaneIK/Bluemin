@@ -1,41 +1,65 @@
 <template>
-  <div class="w-full bg-gray-50 overflow-hidden">
-    <!-- NAVBAR -->
-    <NavBar></NavBar>
+        <!-- BLOG SNAPSHOTS -->
 
-    <!-- HERO SECTION -->
-    <Hero></Hero>
+    <!-- first snapshot -->
+    <section class="py-32 md:px-12 lg:px-24">
+      <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+        <div class="text-center">
+          <h2 class="text-2xl xl:text-3xl font-extrabold text-gray-900 sm:text-5xl">
+            Customise Your Product
+          </h2>
 
-    <!-- carousel -->
-    <Carousel></Carousel>
+          <p class="mx-auto mt-4 max-w-sm text-gray-500">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum maiores ipsum
+            eos temporibus ea nihil.
+          </p>
 
-
-    <!-- BLOG SNAPSHOTS -->
-    <Blog></Blog>
-
-    <!-- FOOTER -->
-    <Footer></Footer>
-  </div>
+          <a
+            href="#"
+            class="mt-8 inline-block rounded-full border border-indigo-600 px-12 py-3 text-xs xl:text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500"
+          >
+            Get Started
+          </a>
+        </div>
+        <ul class="grid gap-x-8 gap-y-10 mt-16 sm:grid-cols-2 lg:grid-cols-3">
+          <li
+            v-for="(post, index) in posts"
+            :key="index"
+            class="w-full mx-auto group sm:max-w-sm"
+          >
+            <a :href="post.href">
+              <img
+                :src="post.img"
+                loading="lazy"
+                :alt="post.title"
+                class="w-full rounded-lg"
+              />
+              <div class="mt-3 space-y-2">
+                <span class="block text-indigo-600 text-sm">{{ post.date }}</span>
+                <h3
+                  class="text-lg text-gray-800 duration-150 group-hover:text-indigo-600 font-semibold"
+                >
+                  {{ post.title }}
+                </h3>
+                <p class="text-gray-600 text-sm duration-150 group-hover:text-gray-800">
+                  {{ post.desc }}
+                </p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
 </template>
+
 
 <script>
 
-import NavBar from './Navbar.vue';
-import Hero from './Hero.vue';
-import Carousel from './Carousel.vue';
-import Blog from './Blog.vue';
-import Footer from './Footer.vue';
+
 
 export default {
-  name: "welcome",
+  name: "Blog",
 
-  components: {
-    NavBar,
-    Hero,
-    Carousel,
-    Blog,
-    Footer
-  },
 
   data() {
     return {
@@ -99,61 +123,7 @@ export default {
     };
   },
 
-  methods: {
-    // onScroll(e) {
-    //   if (typeof window === "undefined") return;
-    //   const top = window.pageYOffset || e.target.scrollTop || 0;
-    //   this.fab = top > 60;
-    // },
-    // toTop() {
-    //   this.$vuetify.goTo(0);
-    // },
 
-    toggleMenu() {
-      this.menuVisible = true;
-    },
-    closeMenu() {
-      this.menuVisible = false;
-    },
 
-    // Log the user in
-    login() {
-      this.$auth.loginWithRedirect();
-    },
-    // Log the user out
-    logout() {
-      this.$auth.logout({
-        returnTo: window.location.origin,
-      });
-    },
-  },
-
-  mounted() {
-    // Handle click events for burger and close buttons
-    const burger = this.$refs.burger;
-    const close = this.$refs.close;
-    const backdrop = this.$refs.backdrop;
-
-    if (burger) {
-      burger.addEventListener("click", this.toggleMenu);
-    }
-
-    if (close) {
-      close.addEventListener("click", this.closeMenu);
-    }
-
-    if (backdrop) {
-      backdrop.addEventListener("click", this.closeMenu);
-    }
-  },
 };
 </script>
-
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap");
-
-
-.hidden {
-  display: none;
-}
-</style>

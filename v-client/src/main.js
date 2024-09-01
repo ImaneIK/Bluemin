@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
+import './assets/main.css'
+
 
 // Import the plugin here
 import { Auth0Plugin } from './auth';
