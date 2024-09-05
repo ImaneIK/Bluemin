@@ -17,14 +17,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Define routes
-// router.get("/",checkJwt, API.fetchAllPost);  // Fetch all posts
-// router.get("/:id",checkJwt, API.fetchPostById);  // Fetch post by ID
-// router.post("/",checkJwt, upload.single("image"), API.createpost);  // Create a new post with image upload
-// router.patch("/:id",checkJwt, upload.single("image"), API.updatepost);  // Update a post with image upload
-// router.delete("/:id",checkJwt, API.deletepost);  // Delete a post
-
-
-// Define routes
 router.get("/", API.fetchAllPost);  // Fetch all posts
 router.get("/:id", API.fetchPostById);  // Fetch post by ID
 router.post("/", upload.single("image"), API.createpost);  // Create a new post with image upload

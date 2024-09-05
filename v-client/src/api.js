@@ -1,22 +1,51 @@
 import axios from "axios";
 const url = "/api/post";
 import { getInstance } from '../src/auth/index';
+const publicUrl = "/public/posts";
 
 export default class API{
-    static async getAllPost(){
-        
-        const auth = getInstance();
-        const token = await auth.getTokenSilently();
-        const res = await axios.get(url,
-            {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-        );
-                
-        return res.data;
+
+    static async getAllPublicPosts() {
+        try {
+            const res = await axios.get(publicUrl);
+            return res.data;
+        } catch (error) {
+            console.error("Failed to load posts:", error);
+            throw error;
+        }
     }
+
+    async getPublicPostById1(id) {
+        try {
+          const response = await axios.get(`/public/posts/${id}`);
+          console.log("client api: post requested")
+          return response.data;
+        } catch (error) {
+          console.error("Failed to load post:", error);
+        }
+    }
+
+
+
+    static async getAllPost() {
+        try {
+          const auth = getInstance();
+          const token = await auth.getTokenSilently();
+      
+          const res = await axios.get(url, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+      
+          console.log("fetching posts on admin mode");
+          return res.data;
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+      
+        
+        }
+      }
 
     static async getPostByID(id){
         console.log("client side: inside get post by id")

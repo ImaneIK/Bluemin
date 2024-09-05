@@ -1,6 +1,8 @@
 <template>
   <v-container>
-    <v-alert border = "left" close-text = "Close Alert" color = "green accent-4" dark dismissible v-if="this.$route.params.message">
+    <Loader v-if="loading"></Loader>
+    <div v-else>
+      <v-alert border = "left" close-text = "Close Alert" color = "green accent-4" dark dismissible v-if="this.$route.params.message">
       {{this.$route.params.message}}
     </v-alert>
     <v-row no_gutters>
@@ -19,20 +21,33 @@
         </v-card>
       </v-col>
     </v-row>
+    </div>
+    
   </v-container>
 </template>
 
 <script>
+import Loader from '../components/Loader.vue'
   import API from "../api";
   export default {
     name: 'Home',
+    components:Loader,
     data(){
       return{
         posts: [],
+        loading:true
       };
     },
     async created(){
-      this.posts = await API.getAllPost();
+      try {
+        this.posts = await API.getAllPost();
+        console.log("requesting api...")
+      }catch(error){
+        console.error("Error fetching post:", error);
+      }finally{
+        this.loading=false
+      }
+      
     }
   }
 </script>

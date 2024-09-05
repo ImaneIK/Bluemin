@@ -7,6 +7,9 @@ const { connectDB } = require('./db'); // Import the database connection
 const bodyParser = require('body-parser');
 const { expressjwt: jwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
+const Post = require('./models/posts'); // Adjust the path as necessary
+const publicRoutes = require("./routes/publicRoutes");
+
 
 
 // JWT Middleware
@@ -61,6 +64,12 @@ app.get('/api', (req, res) => {
   
   console.log(res.json({ message: 'Protected route', userId }))
 });
+
+
+    // Public routes (without authentication)
+    const publicRoutes = require("./routes/publicRoutes");
+    app.use("/public", publicRoutes);
+
 
   // Start server
   app.listen(port, () => console.log(`Server running at http://localhost:${port}`));

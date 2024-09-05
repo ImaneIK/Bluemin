@@ -4,6 +4,39 @@ const { connectDB } = require('../db'); // Assuming you have a connectDB functio
 const { ObjectId } = require('mongodb');
 
 module.exports = class API {
+
+    // New function to fetch all posts for public access
+    static async fetchAllPostsPublic(req, res) {
+        try {
+            const db = await connectDB(); // Get the connected database instance
+            const postsCollection = db.collection("posts");
+            const posts = await postsCollection.find().toArray();// Fetch all posts
+            res.status(200).json(posts);
+        } catch (err) {
+            console.error("Failed to retrieve posts:", err.message);
+            res.status(500).json({ error: "Failed to retrieve posts" });
+        }
+    }
+
+
+        // New function to fetch a specific post for public access
+        static async fetchPublicPostById(req, res) {
+            const id = req.params.id;
+            try {
+                const db = await connectDB();
+                console.log("inside fetch by id: connection established")
+                const post = await db.collection("posts").findOne({ _id: new ObjectId(id)}); // Fetch post by ID
+                console.log("post selected successfully ")
+                if (!post) {
+                    console.log("post selected not found")
+                    return res.status(404).json({ message: "Post not found" });
+                }
+                res.status(200).json(post);
+            } catch (err) {
+                res.status(404).json({ message: err.message });
+            }
+        }
+
     // Fetch all posts
     static async fetchAllPost(req, res) {
 
