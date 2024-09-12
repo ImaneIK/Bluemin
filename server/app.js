@@ -58,9 +58,7 @@ connectDB().then(() => {
   console.log("after use method");
 
 
-  app.get("/", async (req, res) => {
-    console.log("server is live")
-  });
+
 
   // Example route
 app.get('/api', (req, res) => {
