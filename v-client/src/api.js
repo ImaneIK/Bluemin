@@ -1,7 +1,8 @@
 import axios from "axios";
 const url = "/api/post";
 import { getInstance } from '../src/auth/index';
-const publicUrl = "/public/posts";
+const apiBaseUrl = process.env.VUE_APP_API_BASE_URL || "http://localhost:3000";
+const publicUrl = "/public/post";
 
 export default class API{
 

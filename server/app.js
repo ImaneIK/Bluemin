@@ -70,6 +70,10 @@ app.get('/api', (req, res) => {
     const publicRoutes = require("./routes/publicRoutes");
     app.use("/public", publicRoutes);
 
+    app.get("/post", async (req, res) => {
+      console.log("server is live")
+    });
+
 
   // Start server
   app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
