@@ -30,8 +30,9 @@ const port = process.env.PORT || 3000;
 
 
 // Enable CORS
-app.use(cors());
-
+app.use(cors({
+  origin: '*', // Allow all origins
+}));
 // // Enable the use of request body parsing middleware
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
@@ -73,9 +74,7 @@ app.get('/api', (req, res) => {
     const publicRoutes = require("./routes/publicRoutes");
     app.use("/public", publicRoutes);
 
-    app.get("/post", async (req, res) => {
-      console.log("server is live")
-    });
+  ;
 
 
   // Start server
