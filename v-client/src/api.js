@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "/api/post";
+const url = "https://bluemin.onrender.com/api/post";
 import { getInstance } from '../src/auth/index';
 const apiBaseUrl = process.env.VUE_APP_API_BASE_URL || "http://localhost:3000";
 const publicUrl = "https://bluemin.onrender.com/public/posts";
@@ -18,7 +18,7 @@ export default class API{
 
     async getPublicPostById1(id) {
         try {
-          const response = await axios.get(`/public/posts/${id}`);
+          const response = await axios.get(`https://bluemin.onrender.com/public/posts/${id}`);
           console.log("client api: post requested")
           return response.data;
         } catch (error) {
