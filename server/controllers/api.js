@@ -59,21 +59,26 @@ module.exports = class API {
     // Fetch all posts
     static async fetchAllPost(req, res) {
 
-        // if (!req.user) {
-        //     return res.status(401).json({ message: 'Unauthorized' });
-        // }
-    
-        // const userId = req.user.sub;
         try {
-            console.log("before fetching");
-            
-            console.log("user id:",req.auth.sub);
+           if (!req.auth || !req.auth.sub) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
 
-            const db = await connectDB(); // Get the connected database instance
-            const postsCollection = db.collection("posts");
-            const posts = await postsCollection.find({ author: req.auth.sub }).toArray();// Fetch all posts
-            console.log("after fetching");
-            res.status(200).json(posts); // Return the posts as JSON
+        console.log("before fetching");
+        console.log("user id:", req.auth.sub);
+
+        const db = await connectDB();
+        const postsCollection = db.collection("posts");
+
+        const posts = await postsCollection.find({ author: req.auth.sub }).toArray();
+        // Update the image URL to include the full path
+        const updatedPosts = posts.map(post => ({
+            ...post,
+            image: `${req.protocol}://${req.get('host')}/uploads/${post.image}`
+        }));
+
+        console.log("after fetching");
+        res.status(200).json(updatedPosts); // Return the updated posts as JSON
         } catch (err) {
             console.log("error fetching", err);
             res.status(404).json({ message: err.message });
@@ -94,7 +99,14 @@ module.exports = class API {
                 console.log("post selected not found")
                 return res.status(404).json({ message: "Post not found" });
             }
-            res.status(200).json(post);
+            // Update the image URL to include the full path
+        const updatedPost = {
+            ...post,
+            image: `${req.protocol}://${req.get('host')}/uploads/${post.image}`
+        };
+
+        res.status(200).json(updatedPost);
+        console.log("post selected successfully");
         } catch (err) {
             res.status(404).json({ message: err.message });
         }
