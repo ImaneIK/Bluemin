@@ -10,8 +10,19 @@ module.exports = class API {
         try {
             const db = await connectDB(); // Get the connected database instance
             const postsCollection = db.collection("posts");
-            const posts = await postsCollection.find().toArray();// Fetch all posts
-            res.status(200).json(posts);
+            // const posts = await postsCollection.find().toArray();// Fetch all posts
+            // res.status(200).json(posts);
+
+
+            const posts = await postsCollection.find();
+
+            // Update image URL to include full path
+            const updatedPosts = posts.map(post => ({
+            ...post.toObject(),
+            image: `${req.protocol}://${req.get('host')}/uploads/${post.image}` // Full URL to image
+            }));
+
+            res.json(updatedPosts);
         } catch (err) {
             console.error("Failed to retrieve posts:", err.message);
             res.status(500).json({ error: "Failed to retrieve posts" });
@@ -25,12 +36,24 @@ module.exports = class API {
             try {
                 const db = await connectDB();
                 console.log("inside fetch by id: connection established")
-                const post = await db.collection("posts").findOne({ _id: new ObjectId(id)}); // Fetch post by ID
+                // const post = await db.collection("posts").findOne({ _id: new ObjectId(id)}); // Fetch post by ID
+                const post = await Post.findById(req.params.id);
+
+                // Update image URL to include full path
+                const updatedPost = {
+                ...post.toObject(),
+                image: `${req.protocol}://${req.get('host')}/uploads/${post.image}` // Full URL to image
+                };
+
+                res.json(updatedPost);
+                
                 console.log("post selected successfully ")
-                if (!post) {
-                    console.log("post selected not found")
-                    return res.status(404).json({ message: "Post not found" });
-                }
+
+                
+                // if (!post) {
+                //     console.log("post selected not found")
+                //     return res.status(404).json({ message: "Post not found" });
+                // }
                 res.status(200).json(post);
             } catch (err) {
                 res.status(404).json({ message: err.message });
