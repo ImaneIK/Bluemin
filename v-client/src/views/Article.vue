@@ -22,7 +22,7 @@
 
         <img 
                 v-if="post && post.image"
-               :src = "`/${post.image}`"
+               :src = "`${post.image}`"
                 loading="lazy"
                 :alt="post.title"
                 class="w-full object-cover lg:rounded" style="height: 28em;"/>
@@ -139,9 +139,8 @@ export default {
   methods: {
     async getPublicPostById(id) {
       try {
-          const response = await axios.get(`/public/posts/${id}`);
+        const response = await axios.get(`https://bluemin.onrender.com/public/posts/${id}`);
           console.log("client api: post requested")
-          // console.log(response.data)
           return response.data;
           
         } catch (error) {

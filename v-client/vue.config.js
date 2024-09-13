@@ -4,6 +4,11 @@ module.exports = defineConfig({
     'vuetify'
   ],
   devServer: {
-    proxy: "https://bluemin.onrender.com",
+    proxy: {
+    '/api': {
+        target: 'http://bluemin.onrender.com',
+        changeOrigin: true,
+      },
+    },
   }
 })

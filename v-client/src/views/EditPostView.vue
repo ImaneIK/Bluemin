@@ -10,7 +10,7 @@
                         <v-text-field placeholder = "Category" v-model = "post.category" prepend-icon = "mdi-view-list" :rules = "rules"></v-text-field>
                         <v-textarea placeholder = "Content" v-model = "post.content" prepend-icon = "mdi-note-plus" :rules = "rules"></v-textarea>
                         <v-file-input @change = "selectFile" show-size counter multiple label = "Select Image"></v-file-input>
-                        <v-img :src="`/${post.image}`" width = "120"></v-img>
+                        <v-img :src="`${post.image}`" width = "120"></v-img>
                         <v-btn type = "submit" class = "mt-3" color = "success">Update Post</v-btn>
                     </v-form>
                 </v-card>
