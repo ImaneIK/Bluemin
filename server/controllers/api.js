@@ -12,17 +12,17 @@ module.exports = class API {
             const postsCollection = db.collection("posts");
             // const posts = await postsCollection.find().toArray();// Fetch all posts
             // res.status(200).json(posts);
-
-
-            const posts = await postsCollection.find();
+            
+            // Fetch all posts
+            const posts = await postsCollection.find().toArray(); // This gives you plain JavaScript objects
 
             // Update image URL to include full path
             const updatedPosts = posts.map(post => ({
-            ...post.toObject(),
-            image: `${req.protocol}://${req.get('host')}/uploads/${post.image}` // Full URL to image
+                ...post,  // No need for .toObject() since you're using plain objects
+                image: `${req.protocol}://${req.get('host')}/uploads/${post.image}` // Full URL to image
             }));
 
-            res.json(updatedPosts);
+            res.status(200).json(updatedPosts);
         } catch (err) {
             console.error("Failed to retrieve posts:", err.message);
             res.status(500).json({ error: "Failed to retrieve posts" });
@@ -34,27 +34,23 @@ module.exports = class API {
         static async fetchPublicPostById(req, res) {
             const id = req.params.id;
             try {
-                const db = await connectDB();
-                console.log("inside fetch by id: connection established")
-                // const post = await db.collection("posts").findOne({ _id: new ObjectId(id)}); // Fetch post by ID
-                const post = await Post.findById(req.params.id);
+                const db = await connectDB(); // Get the connected database instance
+
+                // Fetch post by ID using native MongoDB driver
+                const post = await db.collection("posts").findOne({ _id: new ObjectId(id) });
+
+                if (!post) {
+                    return res.status(404).json({ message: "Post not found" });
+                }
 
                 // Update image URL to include full path
                 const updatedPost = {
-                ...post.toObject(),
-                image: `${req.protocol}://${req.get('host')}/uploads/${post.image}` // Full URL to image
+                    ...post,
+                    image: `${req.protocol}://${req.get('host')}/uploads/${post.image}` // Full URL to image
                 };
 
-                res.json(updatedPost);
-                
-                console.log("post selected successfully ")
+                 res.status(200).json(updatedPost);
 
-                
-                // if (!post) {
-                //     console.log("post selected not found")
-                //     return res.status(404).json({ message: "Post not found" });
-                // }
-                res.status(200).json(post);
             } catch (err) {
                 res.status(404).json({ message: err.message });
             }
