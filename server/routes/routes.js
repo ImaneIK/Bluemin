@@ -8,7 +8,7 @@ const checkJwt = require('../middleware'); // Adjust the path as needed
 // Set up multer for file uploads (assuming images are being uploaded)
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "https://bluemin.onrender.com/uploads/");
+        cb(null, "./uploads/");
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + "-" + file.originalname);
