@@ -119,7 +119,7 @@ module.exports = class API {
         if (req.file) {
             new_image = req.file.filename;
             try {
-                fs.unlinkSync("https://bluemin.onrender.com/uploads/" + req.body.old_image); // Delete old image
+                fs.unlinkSync('./uploads/' + req.body.old_image); // Delete old image
             } catch (err) {
                 console.log(err);
             }
@@ -155,7 +155,7 @@ module.exports = class API {
             }
             if (result.value.image) {
                 try {
-                    fs.unlinkSync('https://bluemin.onrender.com/uploads/' + result.value.image); // Delete associated image
+                    fs.unlinkSync('./uploads/' + result.value.image); // Delete associated image
                 } catch (err) {
                     console.log(err);
                 }
